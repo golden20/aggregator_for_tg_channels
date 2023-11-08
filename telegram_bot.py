@@ -41,8 +41,10 @@ async def send_echo(message: Message):
     await message.reply(text=message.text)
 
 
-if __name__ == 'main':
-    dp.run_polling(bot)
+dp.run_polling(bot)
+
+# if __name__ == 'main':
+#     dp.run_polling(bot)
 
 
 
