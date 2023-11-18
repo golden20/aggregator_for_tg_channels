@@ -7,8 +7,8 @@ from pathlib import Path
 # import time
 # from pprint import pprint
 
-from aiogram import Bot, Dispatcher
-from aiogram.types import Message
+from aiogram import Bot, Dispatcher, F
+from aiogram.types import Message, ContentType
 from aiogram.filters import Command
 
 dotenv_path = Path('F:\\Vlad_F\\github_ds\\telegram_bot_project\\tg_vars.env')
@@ -24,22 +24,46 @@ dp = Dispatcher()
 
 
 # хендлер будет срабатывать на команду "/start"
-@dp.message(Command(commands=['start']))
+# @dp.message(Command(commands=['start']))
 async def process_start_command(message: Message):
     await message.answer('Привет!\nМеня зовут Эхо-бот!\nНапиши мне что-нибудь.')
 
 
 # хендлер срабатывает на команду "/help"
-@dp.message(Command(commands=['help']))
+# @dp.message(Command(commands=['help']))
 async def process_help_command(message: Message):
     await message.answer('Напиши мне что-нибудь, и в ответ я напишу тебе твое сообщение :)')
 
 
+# Этот хэндлер будет срабатывать на отправку боту фото
+# @dp.message()
+async def send_photo_echo(message: Message):
+    # print(message)
+    await message.reply_photo(message.photo[0].file_id)
+
+
 # хендлер срабатывает на любые твои текстовые сообщения, кроме команд "/start" и "/help"
-@dp.message()
+# @dp.message()
 async def send_echo(message: Message):
     await message.reply(text=message.text)
 
+
+# хендлер обрабатывает все сообщения, кроме '\start' и '\help'
+# @dp.message()
+async def send_copy(message: Message):
+    try:
+        await message.send_copy(chat_id=message.chat.id)
+    except TypeError:
+        await message.reply(text='Данный тип апдейтов не поддерживается методом send_copy.')
+
+
+# Регистрируем хэндлеры
+dp.message.register(process_start_command, Command(commands='start'))
+dp.message.register(process_help_command, Command(commands='help'))
+dp.message.register(send_copy)
+
+# dp.message.register(send_photo_echo, F.photo)  # F.content_type == ContentType.PHOTO
+# dp.message.register(send_echo)
 
 dp.run_polling(bot)
 
