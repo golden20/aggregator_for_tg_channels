@@ -11,7 +11,7 @@ from aiogram import Bot, Dispatcher, F
 from aiogram.types import Message, ContentType
 from aiogram.filters import Command
 
-dotenv_path = Path('F:\\Vlad_F\\github_ds\\telegram_bot_project\\tg_vars.env')
+dotenv_path = Path('/\\tg_vars.env')
 load_dotenv(dotenv_path=dotenv_path)
 
 TG_API_URL = os.getenv('TG_API_URL')
