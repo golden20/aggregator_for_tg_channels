@@ -1,7 +1,0 @@
-.gitignore
-.idea/
-
-/tg_vars.env
-/bot_guess_number.py
-/test_handler_bot.py
-/test.py
